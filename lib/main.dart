@@ -53,6 +53,8 @@ const TextStyle dropDownLabelStyle =
 const TextStyle dropDownMenuItemStyle =
     TextStyle(color: Colors.black, fontSize: 16);
 
+final _searchFieldController = TextEditingController(text: locations[1]);
+
 class HomeScreenTopPart extends StatefulWidget {
   @override
   _HomeScreenTopPartState createState() => _HomeScreenTopPartState();
@@ -151,7 +153,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                     elevation: 5,
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: TextField(
-                      controller: TextEditingController(text: locations[1]),
+                      controller: _searchFieldController,
                       style: dropDownMenuItemStyle,
                       cursorColor: appTheme.primaryColor,
                       decoration: InputDecoration(
@@ -166,7 +168,12 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => FlightListing()));
+                                        builder: (context) =>
+                                            InheritedFlightListing(
+                                              fromLocation: locations[selectedLocationIndex],
+                                              toLocation: _searchFieldController.text,
+                                              child: FlightListing(),
+                                            )));
                               },
                               child: Icon(
                                 Icons.search,
@@ -402,11 +409,10 @@ class CityCard extends StatelessWidget {
               Text(
                 '(${formatCurrency.format(oldPrice)})',
                 style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.lineThrough
-                ),
+                    color: Colors.grey,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    decoration: TextDecoration.lineThrough),
               )
             ],
           )

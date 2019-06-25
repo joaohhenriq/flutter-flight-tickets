@@ -7,7 +7,23 @@ final Color discountBackgroundColor = Color(0xFFFFE08D);
 final Color flightBorderColor = Color(0xFFE6E6E6);
 final Color chipBackgroundColor = Color(0xFFF6F6F6);
 
+class InheritedFlightListing extends InheritedWidget {
+  final String toLocation, fromLocation;
+
+  InheritedFlightListing({this.fromLocation, this.toLocation, Widget child})
+      : super(child: child);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    return true;
+  }
+
+  static InheritedFlightListing of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(InheritedFlightListing);
+}
+
 class FlightListing extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,9 +41,13 @@ class FlightListing extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[FlightListTopPart(),
-          SizedBox(height: 20.0,),
-          FlightListBottomPart()],
+          children: <Widget>[
+            FlightListTopPart(),
+            SizedBox(
+              height: 20.0,
+            ),
+            FlightListBottomPart()
+          ],
         ),
       ),
     );
@@ -69,7 +89,7 @@ class FlightListTopPart extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Goiânia (GYN)",
+                            "${InheritedFlightListing.of(context).fromLocation}",
                             style: TextStyle(fontSize: 16),
                           ),
                           Divider(
@@ -77,7 +97,7 @@ class FlightListTopPart extends StatelessWidget {
                             height: 20,
                           ),
                           Text(
-                            "São Paulo (CGH)",
+                            "${InheritedFlightListing.of(context).toLocation}",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
@@ -166,7 +186,9 @@ class FlightCard extends StatelessWidget {
                           fontSize: 20,
                         ),
                       ),
-                      SizedBox(width: 4.0,),
+                      SizedBox(
+                        width: 4.0,
+                      ),
                       Text(
                         '(${formatCurrency.format(9999)})',
                         style: TextStyle(
@@ -197,15 +219,13 @@ class FlightCard extends StatelessWidget {
               child: Text(
                 '55%',
                 style: TextStyle(
-                  color: appTheme.primaryColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold
-                ),
+                    color: appTheme.primaryColor,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold),
               ),
               decoration: BoxDecoration(
-                color: appTheme.primaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.all(Radius.circular(8.0))
-              ),
+                  color: appTheme.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
             ),
           )
         ],
@@ -215,7 +235,6 @@ class FlightCard extends StatelessWidget {
 }
 
 class FlightDetailChip extends StatelessWidget {
-
   final IconData iconData;
   final String label;
 
@@ -227,10 +246,12 @@ class FlightDetailChip extends StatelessWidget {
       label: Text(label),
       labelStyle: TextStyle(color: Colors.black, fontSize: 14.0),
       backgroundColor: chipBackgroundColor,
-      avatar: Icon(iconData, size: 16,),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0))
+      avatar: Icon(
+        iconData,
+        size: 16,
       ),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
     );
   }
 }
