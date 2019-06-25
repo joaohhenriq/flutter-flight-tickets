@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'custom_app_bar.dart';
 import 'custom_shape_clipper.dart';
 
 void main() => runApp(MyApp());
@@ -32,8 +33,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[HomeScreenTopPart(), homeScreenBottomPart],
+      bottomNavigationBar: CustomAppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[HomeScreenTopPart(), homeScreenBottomPart],
+        ),
       ),
     );
   }
