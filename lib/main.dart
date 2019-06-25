@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'custom_app_bar.dart';
 import 'custom_shape_clipper.dart';
+import 'flight_listing.dart';
 
 void main() => runApp(MyApp());
 
@@ -36,7 +37,11 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[HomeScreenTopPart(), homeScreenBottomPart],
+          children: <Widget>[
+            HomeScreenTopPart(),
+            homeScreenBottomPart,
+            homeScreenBottomPart
+          ],
         ),
       ),
     );
@@ -156,9 +161,17 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                           suffixIcon: Material(
                             elevation: 2.0,
                             borderRadius: BorderRadius.all(Radius.circular(30)),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.black,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FlightListing()));
+                              },
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.black,
+                              ),
                             ),
                           )),
                     ),
@@ -270,12 +283,10 @@ var homeScreenBottomPart = Container(
 ));
 
 List<CityCard> cityCards = [
-  CityCard("assets/images/lasvegas.jpg", "Las Vegas", "Jun 2019", "45", 4299,
-      2250),
   CityCard(
-      "assets/images/athens.jpg", "Athens", "Apr 2019", "50", 9999, 4159),
-  CityCard(
-      "assets/images/sydney.jpeg", "Sydney", "Dec 2019", "40", 5999, 2399),
+      "assets/images/lasvegas.jpg", "Las Vegas", "Jun 2019", "45", 4299, 2250),
+  CityCard("assets/images/athens.jpg", "Athens", "Apr 2019", "50", 9999, 4159),
+  CityCard("assets/images/sydney.jpeg", "Sydney", "Dec 2019", "40", 5999, 2399),
 ];
 
 final formatCurrency = new NumberFormat.simpleCurrency();
@@ -367,7 +378,9 @@ class CityCard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
