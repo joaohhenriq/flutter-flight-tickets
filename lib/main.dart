@@ -405,6 +405,7 @@ class CityCard extends StatelessWidget {
                   color: Colors.grey,
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.lineThrough
                 ),
               )
             ],
