@@ -5,28 +5,30 @@ import 'custom_app_bar.dart';
 import 'custom_shape_clipper.dart';
 import 'flight_listing.dart';
 
-void main() => runApp(MyApp());
+import 'package:firebase_core/firebase_core.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        platform: TargetPlatform.iOS,
-      ),
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
-    );
-  }
+Future<void> main() async {
+  final FirebaseApp app = await FirebaseApp.configure(
+      name: "flutter-flight-tickets",
+      options: const FirebaseOptions(
+        googleAppID: "1:819031335006:android:cff97fcb54784160",
+        apiKey: 'AIzaSyBxjGinfVC_sCA1rUZ_0UCntEDsp2ziBKw',
+        databaseURL: "https://flutter-flight-tickets.firebaseio.com/"
+      ));
+
+  runApp(MaterialApp(
+    theme: appTheme,
+    title: 'Flutter Demo',
+    debugShowCheckedModeBanner: false,
+    home: HomeScreen(),
+  ));
 }
 
 Color firstColor = Color(0xFFF47D15);
 Color secondColor = Color(0xFFEF772C);
 
 ThemeData appTheme =
-    ThemeData(primaryColor: Color(0xFFF3791A), fontFamily: 'Oxygen');
+    ThemeData(primaryColor: Color(0xFFF3791A), fontFamily: 'Oxygen', platform: TargetPlatform.iOS);
 
 List<String> locations = ['Goiânia (GYN)', 'São Paulo (CGH)'];
 
@@ -170,8 +172,10 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             InheritedFlightListing(
-                                              fromLocation: locations[selectedLocationIndex],
-                                              toLocation: _searchFieldController.text,
+                                              fromLocation: locations[
+                                                  selectedLocationIndex],
+                                              toLocation:
+                                                  _searchFieldController.text,
                                               child: FlightListing(),
                                             )));
                               },
