@@ -144,23 +144,13 @@ class FlightListBottomPart extends StatelessWidget {
           StreamBuilder(
             stream: Firestore.instance.collection('deals').snapshots(),
             builder: (context, snapshot) {
-              return !snapshot.hasData
-                  ? CircularProgressIndicator()
-                  : _buildDealsList(context, snapshot.data.documents);
+              return Center(
+                child: !snapshot.hasData
+                    ? CircularProgressIndicator()
+                    : _buildDealsList(context, snapshot.data.documents),
+              );
             },
           )
-//          ListView(
-//            shrinkWrap: true,
-//            physics: ClampingScrollPhysics(),
-//            scrollDirection: Axis.vertical,
-//            children: <Widget>[
-//              FlightCard(),
-//              FlightCard(),
-//              FlightCard(),
-//              FlightCard(),
-//              FlightCard(),
-//            ],
-//          )
         ],
       ),
     );
@@ -260,7 +250,7 @@ class FlightCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
               child: Text(
-                '${flightDetails.discount}',
+                '${flightDetails.discount}%',
                 style: TextStyle(
                     color: appTheme.primaryColor,
                     fontSize: 14.0,
